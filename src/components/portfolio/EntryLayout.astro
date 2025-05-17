@@ -4,6 +4,9 @@ import BaseLayout from "@components/base/BaseLayout.astro";
 import PageHeader from "@/components/common/PageHeader.astro";
 import { markdownify } from "@lib/textConverter";
 import { FaGithub } from "react-icons/fa";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
 
 interface Props {
   entry: PortfolioEntry;
@@ -11,6 +14,9 @@ interface Props {
 
 const { entry } = Astro.props;
 const { title, description, projects } = entry.data;
+
+// Import all images from assets folder
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/portfolio/*.{jpeg,jpg,png,gif}');
 ---
 
 <BaseLayout title={title} description={description}>
@@ -48,6 +54,17 @@ const { title, description, projects } = entry.data;
                   ))}
                 </div>
               </div>
+              {images[`/src/assets/portfolio/${project.title.toLowerCase().replace(/\s+/g, '-')}.png`] && (
+                <div class="my-4">
+                  <Image
+                    src={images[`/src/assets/portfolio/${project.title.toLowerCase().replace(/\s+/g, '-')}.png`]()}
+                    alt={`Screenshot of ${project.title}`}
+                    width={800}
+                    height={400}
+                    class="rounded-lg w-full"
+                  />
+                </div>
+              )}
               <div>
                 {project.content?.map((element: string) => (
                   <p set:html={markdownify(element)} />

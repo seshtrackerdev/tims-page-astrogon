@@ -12,7 +12,7 @@ const menu = [
     url: "/",
   },
   {
-    name: "About",
+    name: "About", 
     url: "/about",
   },
   {
@@ -24,24 +24,29 @@ const menu = [
     url: "/blog",
   },
   {
-    name: "Recipes",
-    url: "/recipes",
-  },
-  {
-    name: "Poetry",
-    url: "/poetry",
-  },
-  {
-    name: "Index Cards",
-    url: "/index-cards",
-  },
-  {
-    name: "Authors",
-    url: "/authors",
-  },
-  {
     name: "Portfolio",
     url: "/portfolio",
+  },
+  {
+    name: "More",
+    submenu: [
+      {
+        name: "Recipes",
+        url: "/recipes",
+      },
+      {
+        name: "Poetry",
+        url: "/poetry", 
+      },
+      {
+        name: "Index Cards",
+        url: "/index-cards",
+      },
+      {
+        name: "Authors",
+        url: "/authors",
+      }
+    ]
   },
 ];
 ---
@@ -75,16 +80,39 @@ const menu = [
     >
       {
         menu.map((item) => (
-          <li class="">
-            <a
-              href={item.url}
-              class={`block p-2 font-secondary font-semibold text-txt-p transition dark:text-darkmode-txt-p lg:px-2 lg:py-3 ${
-                (pathname === `${item.url}/` || pathname === item.url) &&
-                "active"
-              }`}
-            >
-              {item.name}
-            </a>
+          <li class={`relative ${item.submenu ? 'has-submenu' : ''}`}>
+            {item.submenu ? (
+              <>
+                <button class="submenu-toggle block p-2 font-secondary font-semibold text-txt-p transition dark:text-darkmode-txt-p lg:px-2 lg:py-3">
+                  {item.name}
+                </button>
+                <ul class="submenu hidden absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg transition-all duration-200 ease-in-out py-2">
+                  {item.submenu.map((subitem) => (
+                    <li>
+                      <a
+                        href={subitem.url}
+                        class={`block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150 ${
+                          (pathname === `${subitem.url}/` || pathname === subitem.url) &&
+                          "active"
+                        }`}
+                      >
+                        {subitem.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <a
+                href={item.url}
+                class={`block p-2 font-secondary font-semibold text-txt-p transition dark:text-darkmode-txt-p lg:px-2 lg:py-3 ${
+                  (pathname === `${item.url}/` || pathname === item.url) &&
+                  "active"
+                }`}
+              >
+                {item.name}
+              </a>
+            )}
           </li>
         ))
       }
@@ -101,3 +129,36 @@ const menu = [
     </div>
   </nav>
 </header>
+
+<script>
+  // Close any open submenus when clicking outside
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target?.closest('.has-submenu')) {
+      document.querySelectorAll('.submenu').forEach(menu => {
+        menu.classList.add('hidden');
+      });
+    }
+  });
+
+  // Toggle submenu on button click
+  document.querySelectorAll('.submenu-toggle').forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const submenu = button.nextElementSibling as HTMLElement;
+      if (!submenu) return;
+      
+      const wasHidden = submenu.classList.contains('hidden');
+      
+      // Hide all other submenus
+      document.querySelectorAll('.submenu').forEach(menu => {
+        menu.classList.add('hidden');
+      });
+
+      // Toggle this submenu
+      if (wasHidden) {
+        submenu.classList.remove('hidden');
+      }
+    });
+  });
+</script>

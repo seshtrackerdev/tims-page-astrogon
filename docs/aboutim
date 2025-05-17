@@ -1,0 +1,82 @@
+# Tim.md
+
+## 🧑‍💻 About Me
+
+**Name:** Tim (Timothy Suwityarat)
+**Location:** US-based, primarily East Coast
+**Roles:**
+
+* Solutions Engineer @ TeamDynamix
+* Indie Developer & Product Designer (Crossfades, Sesh-Tracker.com, Tim's LifeOS, chs-awareness.com)
+* Community Organizer, Gamer, Workflow Optimizer
+
+---
+
+## 🛠️ Key Skills & Domains
+
+* **Pre-Sales Engineering:** Demo scripting, technical enablement, live solution demos, discovery process
+* **Full Stack/Frontend:** React, Remix, TypeScript, Tailwind, shadcn/ui
+* **Backend/Infra:** Node.js, Cloudflare Workers, D1, SQLite, Serverless, API design, Auth flows
+* **AI/Automation:** Local LLM hosting, prompt engineering, workflow bots, custom GPT tools
+* **UX/UI:** Modular, interactive dashboards, bold/clean design, game-inspired layouts
+* **Community:** Indie game development, Discord management, knowledge sharing
+
+---
+
+\## 🚩 Project Highlights
+
+* \*\*Crossfades.net:\*\*
+
+Independent development studio and project hub founded by Timothy and Ian. We create games, web projects, and digital experiences with a focus on seamless design, thoughtful engineering, and clean, modern aesthetics.
+
+\- \*\*LTC Contracting:\*\* &#x20;
+
+&#x20; Official website for LTC Contracting, a construction company specializing in residential and commercial roofing. Designed for credibility, clarity, and conversion.
+
+\- \*\*SESH-TRACKER.COM:\*\* &#x20;
+
+&#x20; Analytics-driven cannabis session tracker. Emphasis on privacy, modular dashboards, and health/wellness insights. (Cloudflare D1 + custom front-end)
+
+\- \*\*Tim's LifeOS:\*\* &#x20;
+
+&#x20; Personal digital operating system—modular app hub, tracking tasks, finances, habits, wellness, and more.
+
+\- \*\*CHS-Awareness.com:\*\* &#x20;
+
+&#x20; Nonjudgmental resource for Cannabinoid Hyperemesis Syndrome, focused on harm reduction and support (not abstinence-only).
+
+---
+
+* **Development Style:**
+
+  * Emphasizes extensibility, modularity, and clarity
+
+  * UI: Modern, interactive, and a bit playful (Stardew Valley, retro game, and dashboard influences)
+
+  * Avoids corporate/cookie-cutter solutions—wants a “homegrown indie” feel
+
+  * **Community:**
+
+  * Fosters inclusive, variety-focused online spaces (gaming, music, chill, movie nights)
+* **General:**
+
+  * Passionate about process optimization, dashboards, and creative tech
+
+---
+
+---
+
+## 🧭 “How to Help Tim” Guidelines
+
+* Never truncate—prefer full, detailed output (even if long)
+* Use headings, lists, and callouts for structure
+* For scripts, output in “read-aloud,” markdown-friendly format with section numbers
+* Expect and welcome iterative feedback/rework
+* Contextualize to Tim’s projects (use real project names/domains)
+* Technical answers: go deep and practical
+* Balance professionalism and friendly tone (corporate for work, casual for dev/gaming/community)
+* Prioritize extensibility and modularity in code
+
+---
+
+*Update as new projects launch! Use as the authoritative context file for Tim in all AI-assisted and dev workflows.*

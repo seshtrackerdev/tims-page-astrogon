@@ -1,9 +1,6 @@
 ---
-image: "@assets/astrogon-star.svg"
+image: "@assets/logo.svg"
 imageAlt: Astrogon logo
-title: Astrogon
-content: A rapidly-customizable template for a blog, documentation, and more.
-button:
-  label: See the Code
-  link: https://github.com/astrogon/astrogon
+title: Tim's Digital Garden
+content: A personal space where I share my thoughts, discoveries, and random bits of knowledge. Come explore my collection of tech adventures, life experiences, and helpful resources.
 ---

@@ -1,6 +1,13 @@
 User-agent: *
 Allow: /
-
 Disallow: /api/*
 
-Sitemap: https://www.janedoe.com/sitemap-index.xml
+User-agent: GPTBot
+Allow: /docs/
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /docs/
+Allow: /
+
+Sitemap: https://www.tims-page.cc/sitemap-index.xml
