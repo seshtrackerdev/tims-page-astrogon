@@ -136,6 +136,15 @@ const portfolio = defineCollection({
         github: z.string().optional(),
         technologies: z.array(z.string()).optional(),
         content: z.array(z.string()).optional(),
+        image: z.string().optional(),
+        images: z.array(
+          z.object({
+            src: z.string(),
+            alt: z.string().default(""),
+            caption: z.string().optional()
+          })
+        ).optional(),
+        status: z.string().optional(),
       }),
     ),
   }),

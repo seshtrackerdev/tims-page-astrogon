@@ -28,10 +28,19 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/portfol
           projects.map((project) => (
             <>
               <div>
-                <div class="mt-8">
+                <div class="mt-8 flex justify-between items-end">
                   <h3 set:html={markdownify(project.title)} />
+                  {project.status && (
+                    <span class={`text-sm font-medium px-3 py-1 rounded-full ${
+                      project.status === "Completed" 
+                        ? "bg-green-800/30 text-green-300" 
+                        : "bg-yellow-800/30 text-yellow-300"
+                    }`}>
+                      {project.status}
+                    </span>
+                  )}
                 </div>
-                <div class="-mt-4 flex items-center">
+                <div class="-mt-4 flex items-center flex-wrap">
                   {project.github && (
                     <a
                       aria-label="Github"
@@ -44,7 +53,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/portfol
                     </a>
                   )}
                   {project.technologies?.map((element: string) => (
-                    <li class="list-none">
+                    <li class="list-none mb-2">
                       {/* Use markdownify to convert markdown to HTML for each technology */}
                       <div
                         class="mr-2 px-2 h-8 flex glass-t shadow-none rounded text-txt-p dark:text-darkmode-txt-p items-center justify-center text-center"
@@ -54,22 +63,57 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/portfol
                   ))}
                 </div>
               </div>
-              {images[`/src/assets/portfolio/${project.title.toLowerCase().replace(/\s+/g, '-')}.png`] && (
-                <div class="my-4">
-                  <Image
-                    src={images[`/src/assets/portfolio/${project.title.toLowerCase().replace(/\s+/g, '-')}.png`]()}
-                    alt={`Screenshot of ${project.title}`}
-                    width={800}
-                    height={400}
-                    class="rounded-lg w-full"
-                  />
-                </div>
-              )}
-              <div>
+              
+              <div class="prose prose-invert max-w-none my-4">
                 {project.content?.map((element: string) => (
                   <p set:html={markdownify(element)} />
                 ))}
               </div>
+              
+              {/* Display single image (legacy support) */}
+              {project.image && images[`/src/assets/portfolio/${project.image}`] && (
+                <div class="my-6 flex justify-center">
+                  <div class="image-container max-w-[75%]">
+                    <Image
+                      src={images[`/src/assets/portfolio/${project.image}`]()}
+                      alt={`Screenshot of ${project.title}`}
+                      width={800}
+                      height={400}
+                      class="rounded-lg w-full shadow-lg"
+                    />
+                  </div>
+                </div>
+              )}
+              
+              {/* Display multiple images with captions */}
+              {project.images && project.images.length > 0 && (
+                <div class="my-6 space-y-6">
+                  {project.images.map((img) => (
+                    <div class="flex justify-center">
+                      <div class="image-container max-w-[75%]">
+                        {images[`/src/assets/portfolio/${img.src}`] && (
+                          <figure class="m-0">
+                            <Image
+                              src={images[`/src/assets/portfolio/${img.src}`]()}
+                              alt={img.alt || `Screenshot of ${project.title}`}
+                              width={800}
+                              height={400}
+                              class="rounded-lg w-full shadow-lg"
+                            />
+                            {img.caption && (
+                              <figcaption class="text-center text-sm mt-2 text-gray-400 italic">
+                                {img.caption}
+                              </figcaption>
+                            )}
+                          </figure>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              {project !== projects[projects.length - 1] && <hr class="my-8 border-slate-600/50" />}
             </>
           ))
         }
@@ -77,3 +121,13 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/portfol
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .image-container {
+    transition: transform 0.3s ease;
+  }
+  
+  .image-container:hover {
+    transform: scale(1.01);
+  }
+</style>
