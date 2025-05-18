@@ -1,0 +1,55 @@
+/* Search Dialog Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.2s ease-out forwards;
+}
+
+/* Resource Highlight Animation */
+@keyframes highlightPulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.highlight-resource {
+  animation: highlightPulse 2s ease-out;
+}
+
+.selected-resource {
+  border-left: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Question Bank Navigation */
+.question-bank-nav-button {
+  transition: background-color 0.2s;
+}
+
+.question-bank-nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Resource Cards */
+.resource-card-container {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.resource-card-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus styles for keyboard navigation */
+.search-result-item:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: -2px;
+} 

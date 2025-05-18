@@ -3,6 +3,7 @@ import BaseLayout from "@components/base/BaseLayout.astro";
 import PageHeader from "@components/common/PageHeader.astro";
 import { QuestionBank } from "@components/discovery/QuestionBank";
 import { ResourceBank } from "@components/discovery/ResourceBank";
+import { SearchDialog } from "@components/discovery/SearchDialog";
 import { DISCOVERY_MODULES } from "@/data/discovery/questions";
 import { CAI_FAQS } from "@/data/discovery/cai-faqs";
 import { COMPLIANCE_STANDARDS } from "@/data/discovery/compliance-standards";
@@ -10,12 +11,25 @@ import { IPAAS_CONNECTORS } from "@/data/discovery/connectors";
 import { PUBLIC_REQUESTOR_MODULE } from "@/data/discovery/public-requestor";
 import { PEOPLE_IMPORT_MODULE } from "@/data/discovery/people-import";
 import { RELEASE_NOTES } from "@/data/discovery/release-notes";
-import { FaBook, FaQuestionCircle, FaArchive, FaLightbulb, FaFileAlt, FaChartLine } from "react-icons/fa";
+import { FaBook, FaQuestionCircle, FaArchive, FaLightbulb, FaFileAlt, FaChartLine, FaSearch } from "react-icons/fa";
+import "../../../styles/search-dialog.css";
 ---
 
 <BaseLayout title="Discovery Companion">
   <PageHeader title="Discovery Companion" />
-  <div class="flex flex-row h-[calc(100vh-8rem)] w-full glass lg:rounded-lg">
+  
+  {/* Search Trigger Button */}
+  <div class="flex justify-center mb-4">
+    <button
+      id="search-button"
+      class="flex items-center space-x-2 glass px-4 py-2 rounded-lg text-txt-p dark:text-darkmode-txt-p hover:bg-white/10 transition-colors"
+    >
+      <FaSearch className="text-txt-p dark:text-darkmode-txt-p" />
+      <span>Search (Ctrl+K)</span>
+    </button>
+  </div>
+  
+  <div class="flex flex-row h-[calc(100vh-12rem)] w-full glass lg:rounded-lg">
     {/* Question Bank */}
     <div style="width: 50%; flex: 0 0 50%;" class="border-r border-white/10 lg:rounded-l-lg">
       <h2 class="text-xl font-semibold text-txt-p dark:text-darkmode-txt-p p-4 border-b border-white/10">Question Bank</h2>
@@ -33,10 +47,23 @@ import { FaBook, FaQuestionCircle, FaArchive, FaLightbulb, FaFileAlt, FaChartLin
           PUBLIC_REQUESTOR_MODULE,
           PEOPLE_IMPORT_MODULE,
           RELEASE_NOTES
-        ]} 
+        ]}
       />
     </div>
   </div>
+  
+  {/* Global Search Dialog */}
+  <SearchDialog 
+    client:load 
+    modules={DISCOVERY_MODULES}
+    resources={[
+      CAI_FAQS,
+      COMPLIANCE_STANDARDS,
+      PUBLIC_REQUESTOR_MODULE,
+      PEOPLE_IMPORT_MODULE,
+      RELEASE_NOTES
+    ]}
+  />
 </BaseLayout>
 
 <script>
@@ -45,6 +72,56 @@ import { FaBook, FaQuestionCircle, FaArchive, FaLightbulb, FaFileAlt, FaChartLin
   if (!checkSession()) {
     window.location.href = '/apps';
   }
+  
+  // Initialize search dialog control
+  const searchButton = document.getElementById('search-button');
+  let searchDialogOpen = false;
+  
+  // Function to toggle search dialog
+  function toggleSearchDialog() {
+    // Create a custom event to communicate with the React component
+    const event = new CustomEvent('toggleSearchDialog', { 
+      detail: { isOpen: !searchDialogOpen } 
+    });
+    document.dispatchEvent(event);
+    searchDialogOpen = !searchDialogOpen;
+  }
+  
+  // Button click listener
+  searchButton?.addEventListener('click', toggleSearchDialog);
+  
+  // Global keyboard shortcut for search
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      toggleSearchDialog();
+    }
+  });
+  
+  // Handle search selection events
+  document.addEventListener('questionSelected', (e) => {
+    const customEvent = e as CustomEvent;
+    if (customEvent.detail) {
+      const { module, question } = customEvent.detail;
+      // Broadcast to QuestionBank component
+      const selectQuestionEvent = new CustomEvent('selectQuestionFromSearch', {
+        detail: { moduleKey: module.key, questionLabel: question.label }
+      });
+      document.dispatchEvent(selectQuestionEvent);
+    }
+  });
+  
+  document.addEventListener('resourceSelected', (e) => {
+    const customEvent = e as CustomEvent;
+    if (customEvent.detail) {
+      const resource = customEvent.detail.resource;
+      // Broadcast to ResourceBank component
+      const selectResourceEvent = new CustomEvent('selectResourceFromSearch', {
+        detail: { resourceId: resource.id }
+      });
+      document.dispatchEvent(selectResourceEvent);
+    }
+  });
 </script>
 
 <style>

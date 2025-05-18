@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { DiscoveryModule, DiscoveryQuestion } from '@/types/discovery';
 import { ModuleList } from './ModuleList';
 import { QuestionDetail } from './QuestionDetail';
@@ -27,6 +27,48 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({ modules }) => {
       setSelectedModule(null);
     }
   };
+
+  // Listen for search selection events
+  useEffect(() => {
+    const handleSearchSelection = (e: CustomEvent<{moduleKey: string, questionLabel: string}>) => {
+      const { moduleKey, questionLabel } = e.detail;
+      
+      // Find the module
+      const foundModule = modules.find(module => module.key === moduleKey);
+      if (!foundModule) return;
+      
+      setSelectedModule(foundModule);
+      
+      // Find the question
+      let foundQuestion: DiscoveryQuestion | null = null;
+      
+      // Check in categories
+      if (foundModule.categories) {
+        for (const category of foundModule.categories) {
+          const question = category.questions.find(q => q.label === questionLabel);
+          if (question) {
+            foundQuestion = question;
+            break;
+          }
+        }
+      }
+      
+      // Check in direct questions
+      if (!foundQuestion && foundModule.questions) {
+        foundQuestion = foundModule.questions.find(q => q.label === questionLabel) || null;
+      }
+      
+      if (foundQuestion) {
+        setSelectedQuestion(foundQuestion);
+      }
+    };
+
+    document.addEventListener('selectQuestionFromSearch', handleSearchSelection as EventListener);
+    
+    return () => {
+      document.removeEventListener('selectQuestionFromSearch', handleSearchSelection as EventListener);
+    };
+  }, [modules]);
 
   return (
     <div className="h-[calc(100vh-20rem)] overflow-y-auto">
@@ -82,7 +124,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({ modules }) => {
             </div>
             
             {/* Handle modules with categories */}
-            {selectedModule.categories?.map((category) => (
+            {selectedModule.categories && selectedModule.categories.map((category) => (
               <div key={category.name} className="glass p-4 rounded-lg">
                 <h3 className="text-lg font-semibold mb-2 text-txt-p dark:text-darkmode-txt-p">
                   {category.name}
