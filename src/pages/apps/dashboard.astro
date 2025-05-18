@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@components/base/BaseLayout.astro";
 import PageHeader from "@components/common/PageHeader.astro";
-import { FaSignOutAlt } from "react-icons/fa";
+import { FaSignOutAlt, FaBook, FaSearch } from "react-icons/fa";
 ---
 
 <BaseLayout title="Apps Dashboard">
@@ -17,10 +17,23 @@ import { FaSignOutAlt } from "react-icons/fa";
         </button>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Add your app cards here -->
-        <div class="glass rounded-lg p-6 hover:transform hover:-translate-y-1 transition-all duration-300">
-          <h3 class="text-xl font-semibold mb-2">Coming Soon</h3>
-          <p class="text-gray-600 dark:text-gray-400">Your apps will appear here.</p>
+        <!-- Discovery Companion App -->
+        <a href="/apps/discovery" class="glass rounded-lg p-6 hover:transform hover:-translate-y-1 transition-all duration-300 group">
+          <div class="flex items-center mb-4">
+            <FaBook className="text-2xl mr-3 text-primary-500 group-hover:text-primary-600 transition-colors" />
+            <h3 class="text-xl font-semibold">Discovery Companion</h3>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400 mb-4">Organize and access your educational resources efficiently.</p>
+          <div class="flex items-center text-sm text-primary-500">
+            <FaSearch className="mr-1" /> 
+            <span>Launch App</span>
+          </div>
+        </a>
+
+        <!-- Placeholder for future apps -->
+        <div class="glass rounded-lg p-6">
+          <h3 class="text-xl font-semibold mb-2">More Coming Soon</h3>
+          <p class="text-gray-600 dark:text-gray-400">Additional apps will appear here.</p>
         </div>
       </div>
     </div>

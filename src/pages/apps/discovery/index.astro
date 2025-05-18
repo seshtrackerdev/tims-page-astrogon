@@ -1,0 +1,33 @@
+---
+import BaseLayout from "@components/base/BaseLayout.astro";
+import PageHeader from "@components/common/PageHeader.astro";
+import { FaBook } from "react-icons/fa";
+---
+
+<BaseLayout title="Discovery Companion">
+  <PageHeader title="Discovery Companion" />
+  <section class="section">
+    <div class="container glass p-6 lg:rounded-lg">
+      <div class="text-center py-12">
+        <FaBook className="text-6xl mx-auto mb-6 text-primary-500" />
+        <h2 class="text-2xl font-semibold mb-4">Welcome to Discovery Companion</h2>
+        <p class="text-gray-600 dark:text-gray-400">Your educational resource management hub is coming soon.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { checkSession } from '@/lib/session';
+  
+  // Redirect to login if not authenticated
+  if (!checkSession()) {
+    window.location.href = '/apps';
+  }
+</script>
+
+<style>
+  .section {
+    min-height: 60vh;
+  }
+</style> 
