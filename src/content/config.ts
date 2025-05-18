@@ -112,6 +112,15 @@ const poetry = defineCollection({
       image: image().optional(),
       imageAlt: z.string().default(""),
       author: reference("authors").optional(),
+      tags: z.array(z.string()).optional().default([]),
+      category: z.string().optional(),
+      audioUrl: z.string().optional(),
+      annotations: z.array(
+        z.object({
+          line: z.number(),
+          note: z.string()
+        })
+      ).optional().default([])
     }),
 });
 

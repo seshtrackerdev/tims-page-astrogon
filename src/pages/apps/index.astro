@@ -1,0 +1,33 @@
+---
+import BaseLayout from "@components/base/BaseLayout.astro";
+import { PinProtection } from "@components/apps/PinProtection";
+import PageHeader from "@components/common/PageHeader.astro";
+import { FaLock } from "react-icons/fa";
+---
+
+<BaseLayout title="Tim's Apps">
+  <PageHeader title="Tim's Apps" />
+  <section class="section">
+    <div class="container">
+      <PinProtection client:load correctPin="611611" onSuccess={() => {
+        // After successful PIN entry, redirect to the apps dashboard
+        window.location.href = "/apps/dashboard";
+      }} />
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { checkSession } from '@/lib/session';
+  
+  // If already authenticated, redirect to dashboard
+  if (checkSession()) {
+    window.location.href = '/apps/dashboard';
+  }
+</script>
+
+<style>
+  .section {
+    min-height: 60vh;
+  }
+</style> 

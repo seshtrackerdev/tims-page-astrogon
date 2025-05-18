@@ -4,9 +4,11 @@ import Pagination from "@components/common/Pagination.astro";
 import Share from "@components/common/Share.astro";
 import { plainify } from "@lib/textConverter";
 import type { PoetryEntry } from "@/types";
-
 import { render } from "astro:content";
 import EntryHeader from "@components/common/EntryHeader.astro";
+import { Image } from "astro:assets";
+import DefaultImage from "./DefaultImage.astro";
+
 interface Props {
   entry: PoetryEntry;
   pageIDs: string[];
@@ -15,7 +17,7 @@ interface Props {
 }
 
 const { entry, pageIDs, pageIndex, pageCount }: Props = Astro.props;
-const { title, description, autodescription, image } = entry.data;
+const { title, description, autodescription, image, imageAlt, tags, category, audioUrl, annotations } = entry.data;
 const { Content } = await render(entry);
 
 const descriptionLength = 200;
@@ -28,17 +30,72 @@ const entryDescription =
 <BaseLayout title={title} description={entryDescription} image={image?.src}>
   <section class="flex container justify-center my-8">
     <div class="col md:col-8">
-      <article class="">
+      <article>
         <section>
-          <EntryHeader entry={entry} showImage showAuthor showDate />
+          <EntryHeader entry={entry} showAuthor showDate />
+          
+          <div class="mb-6 rounded-lg overflow-hidden aspect-[16/9]">
+            {image ? (
+              <Image
+                src={image}
+                alt={imageAlt || title || "Poetry image"}
+                class="w-full h-full object-cover"
+                width={1200}
+                height={675}
+              />
+            ) : (
+              <DefaultImage title={title} />
+            )}
+          </div>
+          
+          {/* Tags and Category */}
+          <div class="flex flex-wrap gap-2 mb-4">
+            {tags && tags.length > 0 && tags.map(tag => (
+              <span class="text-sm px-3 py-1 rounded-full bg-primary/10 text-primary">
+                #{tag}
+              </span>
+            ))}
+            {category && (
+              <span class="text-sm px-3 py-1 rounded-full bg-secondary/10 text-secondary">
+                {category}
+              </span>
+            )}
+          </div>
+          
+          {/* Audio Player */}
+          {audioUrl && (
+            <div class="mb-6">
+              <audio controls class="w-full">
+                <source src={audioUrl} type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          )}
         </section>
-        <section class="content mb-4 glass px-4 rounded-lg">
+        
+        <section class="content mb-4 glass px-4 rounded-lg relative">
           <Content />
+          
+          {/* Annotations */}
+          {annotations && annotations.length > 0 && (
+            <div class="mt-8 border-t pt-4">
+              <h3 class="text-lg font-semibold mb-4">Notes & Annotations</h3>
+              <div class="space-y-4">
+                {annotations.map(({ line, note }) => (
+                  <div class="flex gap-4">
+                    <div class="text-sm font-mono text-primary">Line {line}</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">{note}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
       </article>
     </div>
   </section>
-  <section class=`container mt-4 mb-8 col md:col-8`>
+  
+  <section class="container mt-4 mb-8 col md:col-8">
     <hr />
     <div class="flex items-center justify-center lg:justify-end mt-4">
       <Share
@@ -49,6 +106,7 @@ const entryDescription =
       />
     </div>
   </section>
+  
   <Pagination
     collection="poetry"
     pageIDs={pageIDs}
