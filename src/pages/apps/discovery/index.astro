@@ -1,26 +1,47 @@
 ---
 import BaseLayout from "@components/base/BaseLayout.astro";
 import PageHeader from "@components/common/PageHeader.astro";
-import { FaBook } from "react-icons/fa";
+import { QuestionBank } from "@components/discovery/QuestionBank";
+import { ResourceBank } from "@components/discovery/ResourceBank";
+import { DISCOVERY_MODULES } from "@/data/discovery/questions";
+import { CAI_FAQS } from "@/data/discovery/cai-faqs";
+import { COMPLIANCE_STANDARDS } from "@/data/discovery/compliance-standards";
+import { IPAAS_CONNECTORS } from "@/data/discovery/connectors";
+import { PUBLIC_REQUESTOR_MODULE } from "@/data/discovery/public-requestor";
+import { PEOPLE_IMPORT_MODULE } from "@/data/discovery/people-import";
+import { RELEASE_NOTES } from "@/data/discovery/release-notes";
+import { FaBook, FaQuestionCircle, FaArchive, FaLightbulb, FaFileAlt, FaChartLine } from "react-icons/fa";
 ---
 
 <BaseLayout title="Discovery Companion">
   <PageHeader title="Discovery Companion" />
-  <section class="section">
-    <div class="container glass p-6 lg:rounded-lg">
-      <div class="text-center py-12">
-        <FaBook className="text-6xl mx-auto mb-6 text-primary-500" />
-        <h2 class="text-2xl font-semibold mb-4">Welcome to Discovery Companion</h2>
-        <p class="text-gray-600 dark:text-gray-400">Your educational resource management hub is coming soon.</p>
-      </div>
+  <div class="flex flex-row h-[calc(100vh-8rem)] w-full glass lg:rounded-lg">
+    {/* Question Bank */}
+    <div style="width: 50%; flex: 0 0 50%;" class="border-r border-white/10 lg:rounded-l-lg">
+      <h2 class="text-xl font-semibold text-txt-p dark:text-darkmode-txt-p p-4 border-b border-white/10">Question Bank</h2>
+      <QuestionBank client:load modules={DISCOVERY_MODULES} />
     </div>
-  </section>
+
+    {/* Resource Bank */}
+    <div style="width: 50%; flex: 0 0 50%;" class="lg:rounded-r-lg">
+      <h2 class="text-xl font-semibold text-txt-p dark:text-darkmode-txt-p p-4 border-b border-white/10">Resource Bank</h2>
+      <ResourceBank 
+        client:load 
+        resources={[
+          CAI_FAQS,
+          COMPLIANCE_STANDARDS,
+          PUBLIC_REQUESTOR_MODULE,
+          PEOPLE_IMPORT_MODULE,
+          RELEASE_NOTES
+        ]} 
+      />
+    </div>
+  </div>
 </BaseLayout>
 
 <script>
   import { checkSession } from '@/lib/session';
   
-  // Redirect to login if not authenticated
   if (!checkSession()) {
     window.location.href = '/apps';
   }
