@@ -54,22 +54,22 @@ export const ModuleList: React.FC<ModuleListProps> = ({
         <button
           key={module.key}
           onClick={() => onModuleSelect?.(module)}
-          className="module-card text-left glass p-6 rounded-lg border border-white/10 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-txt-p dark:focus:ring-darkmode-txt-p transform"
+          className="module-card text-left glass p-6 rounded-lg border border-gray-200 dark:border-white/10 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 transform"
           style={{ 
             borderLeft: `4px solid ${module.color}`,
             animationDelay: `${index * 0.1}s`
           }}
         >
           <div className="flex items-center mb-4">
-            <span className="text-2xl mr-3 bg-white/5 w-12 h-12 flex items-center justify-center rounded-full" style={{ color: module.color }}>
+            <span className="text-2xl mr-3 bg-gray-100 dark:bg-white/5 w-12 h-12 flex items-center justify-center rounded-full" style={{ color: module.color }}>
               {module.icon}
             </span>
-            <h3 className="text-xl font-semibold text-txt-p dark:text-darkmode-txt-p">{module.name}</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white">{module.name}</h3>
           </div>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
             {module.description}
           </p>
-          <div className="text-sm font-medium px-3 py-1 inline-block rounded-full bg-white/5 text-txt-p dark:text-darkmode-txt-p">
+          <div className="text-sm font-medium px-3 py-1 inline-block rounded-full bg-gray-100 dark:bg-white/5 text-gray-800 dark:text-white">
             {module.categories ? (
               <span>{module.categories.length} Categories</span>
             ) : (

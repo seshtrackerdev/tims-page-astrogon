@@ -303,15 +303,23 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
 
   return (
     <div 
-      className="p-4 glass rounded-lg border border-white/5 shadow-md hover:shadow-lg transition-all duration-300" 
+      className={`p-4 glass rounded-lg border ${isExpanded ? 'border-blue-200 dark:border-blue-900' : 'border-gray-200 dark:border-white/5'} shadow-md hover:shadow-lg transition-all duration-300`}
       style={style}
     >
       <div className="flex justify-between items-start">
         <div className="flex items-center">
-          <span className="text-xl mr-3 bg-white/5 w-10 h-10 flex items-center justify-center rounded-full">{getTypeIcon()}</span>
+          <span className="text-xl mr-3 bg-gray-100 dark:bg-white/5 w-10 h-10 flex items-center justify-center rounded-full">{getTypeIcon()}</span>
           <div>
-            <h3 className="text-lg font-semibold text-txt-p dark:text-darkmode-txt-p">{resource.title}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">{resource.type.replace(/_/g, ' ')}</p>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{resource.title}</h3>
+            <div className="flex items-center">
+              <p className="text-sm text-gray-600 dark:text-gray-400">{resource.type.replace(/_/g, ' ')}</p>
+              <div className="text-xs text-gray-500 dark:text-gray-400 border-l border-gray-200 dark:border-gray-700 ml-2 pl-2 flex items-center">
+                <svg className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Last verified <span className="font-medium ml-1">5/18/2025</span>
+              </div>
+            </div>
           </div>
         </div>
         
@@ -321,45 +329,49 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
               href={resource.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 hover:bg-white/10 rounded-full transition-colors"
-              title="Open in new tab"
+              className="interactive-button btn-with-tooltip"
+              data-tooltip="Open in new tab"
             >
-              <FaExternalLinkAlt className="text-gray-400 hover:text-primary-500" />
+              <FaExternalLinkAlt className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-primary-500" />
             </a>
           )}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="p-2 hover:bg-white/10 rounded-full transition-colors"
-            title={isExpanded ? "Collapse" : "Expand"}
+            className="interactive-button relative btn-with-tooltip"
+            data-tooltip={isExpanded ? "Collapse" : "Expand"}
             aria-expanded={isExpanded}
           >
-            {isExpanded ? (
-              <FaChevronUp className="text-gray-400" />
-            ) : (
-              <FaChevronDown className="text-gray-400" />
-            )}
+            <div className={`transition-transform duration-300 ${isExpanded ? "rotate-180" : "rotate-0"}`}>
+              <FaChevronDown className="text-gray-600 dark:text-gray-400" />
+            </div>
           </button>
         </div>
       </div>
       
-      {!isExpanded && (
+      {!isExpanded ? (
         <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
           {resource.description}
         </p>
+      ) : (
+        <div className="mt-2">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            {resource.description}
+          </p>
+        </div>
       )}
       
-      {'tags' in resource && resource.tags && resource.tags.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {resource.tags.map(tag => (
+      <div className="mt-2 flex flex-wrap gap-2">
+        {'tags' in resource && resource.tags && resource.tags.length > 0 && 
+          resource.tags.map(tag => (
             <span
               key={tag}
-              className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-white/5 text-gray-400"
+              className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400"
             >
               <FaTag className="mr-1 text-xs" /> {tag}
             </span>
-          ))}
-        </div>
-      )}
+          ))
+        }
+      </div>
       
       <div className={`transition-all duration-300 overflow-hidden ${isExpanded ? 'max-h-[9999px] opacity-100' : 'max-h-0 opacity-0'}`}>
         {renderContent()}

@@ -76,7 +76,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({ modules }) => {
       <div className="flex items-center space-x-2 text-sm mb-4 px-2">
         <button 
           onClick={() => setSelectedModule(null)} 
-          className={`hover:text-txt-p dark:hover:text-darkmode-txt-p ${!selectedModule ? 'text-txt-p dark:text-darkmode-txt-p font-semibold' : ''}`}
+          className={`question-bank-nav-button hover:text-txt-p dark:hover:text-darkmode-txt-p ${!selectedModule ? 'text-txt-p dark:text-darkmode-txt-p font-semibold' : ''}`}
         >
           Modules
         </button>
@@ -85,7 +85,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({ modules }) => {
             <span>/</span>
             <button 
               onClick={() => setSelectedQuestion(null)}
-              className={`hover:text-txt-p dark:hover:text-darkmode-txt-p ${!selectedQuestion ? 'text-txt-p dark:text-darkmode-txt-p font-semibold' : ''}`}
+              className={`question-bank-nav-button hover:text-txt-p dark:hover:text-darkmode-txt-p ${!selectedQuestion ? 'text-txt-p dark:text-darkmode-txt-p font-semibold' : ''}`}
             >
               {selectedModule.name}
             </button>
@@ -117,7 +117,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({ modules }) => {
               </h2>
               <button
                 onClick={handleBack}
-                className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-txt-p dark:text-darkmode-txt-p flex items-center gap-2"
+                className="dropdown-button flex items-center gap-2"
               >
                 <span>←</span> Back to Modules
               </button>
@@ -137,9 +137,9 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({ modules }) => {
                     <button
                       key={question.label}
                       onClick={() => handleQuestionSelect(question)}
-                      className="w-full text-left p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                      className="w-full text-left p-3 rounded-lg border border-white/5 bg-white/5 hover:bg-white/10 transition-colors hover:shadow-md"
                     >
-                      <h4 className="font-medium text-txt-p dark:text-darkmode-txt-p">
+                      <h4 className="font-medium text-gray-800 dark:text-white">
                         {question.label}
                       </h4>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
@@ -159,9 +159,9 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({ modules }) => {
                     <button
                       key={question.label}
                       onClick={() => handleQuestionSelect(question)}
-                      className="w-full text-left p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                      className="w-full text-left p-3 rounded-lg border border-white/5 bg-white/5 hover:bg-white/10 transition-colors hover:shadow-md"
                     >
-                      <h4 className="font-medium text-txt-p dark:text-darkmode-txt-p">
+                      <h4 className="font-medium text-gray-800 dark:text-white">
                         {question.label}
                       </h4>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
