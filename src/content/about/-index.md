@@ -1,7 +1,7 @@
 ---
 title: Hey, I'm Tim Suwityarat!
 description: Solutions Engineer and Indie Developer focused on impactful digital projects, combining technical expertise with healthcare advocacy and community building.
-image: "@assets/profile/tim-suwityarat.png"
+image: "@assets/profile/timirl.jpg"
 draft: false
 ---
 

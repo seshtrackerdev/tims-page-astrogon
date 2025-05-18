@@ -46,11 +46,22 @@ export interface Connector {
   status: string;
 }
 
+export interface ConnectorsModule {
+  id: string;
+  title: string;
+  description: string;
+  type: 'connectors';
+  url?: string;
+  tags: string[];
+  connectors: Connector[];
+}
+
 export type ResourceModule = 
   | FAQModule 
   | ComplianceStandardsModule 
   | PublicRequestorModule
   | PeopleImportModule
-  | ReleaseNotesModule;
+  | ReleaseNotesModule
+  | ConnectorsModule;
 
 export type ResourceType = ResourceModule['type']; 

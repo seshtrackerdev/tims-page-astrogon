@@ -46,7 +46,7 @@ const { Content } = await render(entry);
           </div>
           
           <!-- Resume-like content sections -->
-          <div class="resume-content prose prose-invert max-w-none">
+          <div class="resume-content prose dark:prose-invert max-w-none">
             <Content />
           </div>
         </div>
@@ -65,7 +65,7 @@ const { Content } = await render(entry);
   }
   
   .resume-content :global(h4) {
-    @apply text-sm font-medium text-slate-300 mt-0 mb-3;
+    @apply text-sm font-medium dark:text-slate-300 text-slate-700 mt-0 mb-3;
   }
   
   .resume-content :global(ul) {

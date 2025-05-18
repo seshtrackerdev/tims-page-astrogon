@@ -1,4 +1,4 @@
-import type { Connector } from '../../types/discovery/index';
+import type { Connector, ConnectorsModule } from '../../types/discovery/resources';
 
 export const IPAAS_CONNECTORS: Connector[] = [
   // Authentication & Identity
@@ -101,5 +101,230 @@ export const IPAAS_CONNECTORS: Connector[] = [
     type: 'api',
     category: 'communication',
     status: 'active'
+  },
+
+  // Data & Analytics
+  {
+    id: 'snowflake',
+    name: 'Snowflake',
+    description: 'Cloud data platform',
+    type: 'api',
+    category: 'data',
+    status: 'active'
+  },
+  {
+    id: 'power-bi',
+    name: 'Power BI',
+    description: 'Business analytics service',
+    type: 'api',
+    category: 'data',
+    status: 'active'
+  },
+  {
+    id: 'tableau',
+    name: 'Tableau',
+    description: 'Visual analytics platform',
+    type: 'api',
+    category: 'data',
+    status: 'active'
+  },
+
+  // Education
+  {
+    id: 'canvas',
+    name: 'Canvas',
+    description: 'Learning management system',
+    type: 'api',
+    category: 'education',
+    status: 'active'
+  },
+  {
+    id: 'ellucian-banner',
+    name: 'Ellucian Banner',
+    description: 'Higher education ERP system',
+    type: 'api',
+    category: 'education',
+    status: 'active'
+  },
+  {
+    id: 'ellucian-colleague',
+    name: 'Ellucian Colleague',
+    description: 'Higher education management system',
+    type: 'api',
+    category: 'education',
+    status: 'active'
+  },
+
+  // Enterprise Systems
+  {
+    id: 'salesforce',
+    name: 'Salesforce',
+    description: 'Customer relationship management platform',
+    type: 'api',
+    category: 'enterprise',
+    status: 'active'
+  },
+  {
+    id: 'servicenow',
+    name: 'ServiceNow',
+    description: 'Enterprise service management platform',
+    type: 'api',
+    category: 'enterprise',
+    status: 'active'
+  },
+  {
+    id: 'workday',
+    name: 'Workday',
+    description: 'Enterprise management cloud solutions',
+    type: 'api',
+    category: 'enterprise',
+    status: 'active'
+  },
+
+  // File Storage
+  {
+    id: 'box',
+    name: 'Box',
+    description: 'Cloud content management',
+    type: 'api',
+    category: 'file',
+    status: 'active'
+  },
+  {
+    id: 'dropbox',
+    name: 'Dropbox',
+    description: 'File hosting service',
+    type: 'api',
+    category: 'file',
+    status: 'active'
+  },
+  {
+    id: 'onedrive',
+    name: 'Microsoft OneDrive',
+    description: 'File hosting service by Microsoft',
+    type: 'api',
+    category: 'file',
+    status: 'active'
+  },
+
+  // HR & Workforce
+  {
+    id: 'workday-hr',
+    name: 'Workday Human Resources',
+    description: 'Human capital management solution',
+    type: 'api',
+    category: 'hr',
+    status: 'active'
+  },
+  {
+    id: 'ceridian-dayforce',
+    name: 'Ceridian Dayforce',
+    description: 'Human capital management platform',
+    type: 'api',
+    category: 'hr',
+    status: 'active'
+  },
+  {
+    id: 'ukg-pro',
+    name: 'UKG Pro',
+    description: 'HR and workforce management solution',
+    type: 'api',
+    category: 'hr',
+    status: 'active'
+  },
+
+  // IT Management
+  {
+    id: 'freshservice',
+    name: 'Freshservice',
+    description: 'IT service management platform',
+    type: 'api',
+    category: 'it',
+    status: 'active'
+  },
+  {
+    id: 'jamf-pro',
+    name: 'JAMF Pro',
+    description: 'Apple device management',
+    type: 'api',
+    category: 'it',
+    status: 'active'
+  },
+  {
+    id: 'microsoft-intune',
+    name: 'Microsoft Intune',
+    description: 'Cloud-based device management',
+    type: 'api',
+    category: 'it',
+    status: 'active'
+  },
+
+  // Productivity
+  {
+    id: 'microsoft-365',
+    name: 'Microsoft 365',
+    description: 'Productivity and collaboration suite',
+    type: 'api',
+    category: 'productivity',
+    status: 'active'
+  },
+  {
+    id: 'google-workspace',
+    name: 'Google Workspace',
+    description: 'Business productivity and collaboration tools',
+    type: 'api',
+    category: 'productivity',
+    status: 'active'
+  },
+  {
+    id: 'asana',
+    name: 'Asana',
+    description: 'Project management and collaboration tool',
+    type: 'api',
+    category: 'productivity',
+    status: 'active'
+  },
+
+  // Project Management
+  {
+    id: 'jira',
+    name: 'Jira',
+    description: 'Project and issue tracking software',
+    type: 'api',
+    category: 'integration',
+    status: 'active'
+  },
+  {
+    id: 'azure-devops',
+    name: 'Azure DevOps',
+    description: 'Development and project management platform',
+    type: 'api',
+    category: 'integration',
+    status: 'active'
+  },
+  {
+    id: 'github',
+    name: 'GitHub',
+    description: 'Code hosting and collaboration platform',
+    type: 'oauth',
+    category: 'integration',
+    status: 'active'
+  },
+  {
+    id: 'confluence',
+    name: 'Confluence',
+    description: 'Team collaboration and documentation',
+    type: 'api',
+    category: 'integration',
+    status: 'active'
   }
 ]; 
+
+export const CONNECTORS_MODULE: ConnectorsModule = {
+  id: 'ipaas-connectors',
+  title: 'iPaaS Connectors',
+  description: 'Available integration platform as a service connectors',
+  type: 'connectors',
+  tags: ['integrations', 'api', 'connectors', 'ipaas'],
+  connectors: IPAAS_CONNECTORS
+}; 

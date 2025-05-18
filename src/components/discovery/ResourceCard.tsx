@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { CSSProperties } from 'react';
 import type { ResourceModule } from '../../types/discovery/resources';
 import { FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaTag } from 'react-icons/fa';
@@ -6,10 +6,18 @@ import { FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaTag } from 'react-icon
 interface ResourceCardProps {
   resource: ResourceModule;
   style?: CSSProperties;
+  forceExpanded?: boolean;
 }
 
-export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) => {
+export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style, forceExpanded }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Effect to handle forceExpanded prop changes
+  useEffect(() => {
+    if (forceExpanded !== undefined) {
+      setIsExpanded(forceExpanded);
+    }
+  }, [forceExpanded]);
 
   // Function to get icon based on resource type
   const getTypeIcon = () => {
@@ -24,6 +32,8 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
         return '📥';
       case 'release-notes':
         return '📝';
+      case 'connectors':
+        return '🔌';
       default:
         return '📄';
     }
@@ -37,18 +47,18 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
       case 'faq': {
         const faqResource = resource as any; // Using any as a temporary workaround
         return (
-          <div className="mt-4 space-y-4">
+          <div className="mt-3 space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar pr-2">
             {faqResource.faqs.map((faq: any, index: number) => (
-              <div key={index} className="p-3 glass rounded-lg transform transition-all duration-200 hover:translate-x-1">
-                <h4 className="font-medium text-txt-p dark:text-darkmode-txt-p mb-2">
+              <div key={index} className="p-2 glass rounded-lg transform transition-all duration-200 hover:translate-x-1">
+                <h4 className="font-medium text-sm text-txt-p dark:text-darkmode-txt-p mb-1">
                   {faq.question}
                 </h4>
-                <p className="text-gray-600 dark:text-gray-400 whitespace-pre-line">
+                <p className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-line">
                   {faq.answer}
                 </p>
                 {faq.category && (
-                  <div className="mt-2">
-                    <span className="inline-block bg-white/10 text-xs px-2 py-1 rounded-full">
+                  <div className="mt-1">
+                    <span className="inline-block bg-white/10 text-sm px-2 py-0.5 rounded-full">
                       {faq.category}
                     </span>
                   </div>
@@ -62,10 +72,10 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
       case 'compliance': {
         const complianceResource = resource as any;
         return (
-          <div className="mt-4 space-y-4">
+          <div className="mt-4 space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2">
             <div className="overflow-x-auto rounded-lg glass">
               <table className="min-w-full">
-                <thead>
+                <thead className="sticky top-0 bg-white dark:bg-gray-800 z-10">
                   <tr className="border-b border-white/10">
                     <th className="text-left py-2 px-3 font-medium">Standard</th>
                     <th className="text-left py-2 px-3 font-medium">Status</th>
@@ -103,11 +113,11 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
       case 'public-requestor': {
         const requestorResource = resource as any;
         return (
-          <div className="mt-4 space-y-4">
-            <h4 className="font-medium text-txt-p dark:text-darkmode-txt-p">Form Fields</h4>
+          <div className="mt-3 space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar pr-2">
+            <h4 className="font-medium text-sm text-txt-p dark:text-darkmode-txt-p sticky top-0 bg-white dark:bg-gray-800 py-1 z-10">Form Fields</h4>
             <div className="overflow-x-auto rounded-lg glass">
               <table className="min-w-full">
-                <thead>
+                <thead className="sticky top-10 bg-white dark:bg-gray-800 z-10">
                   <tr className="border-b border-white/10">
                     <th className="text-left py-2 px-3 font-medium">Field</th>
                     <th className="text-left py-2 px-3 font-medium">Required</th>
@@ -134,16 +144,16 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
               </table>
             </div>
             
-            <h4 className="font-medium text-txt-p dark:text-darkmode-txt-p mt-6">Matching Options</h4>
-            <div className="space-y-3">
+            <h4 className="font-medium text-sm text-txt-p dark:text-darkmode-txt-p mt-4 sticky top-0 bg-white dark:bg-gray-800 py-1 z-10">Matching Options</h4>
+            <div className="space-y-2">
               {requestorResource.matchingOptions.map((option: any, index: number) => (
-                <div key={index} className="p-3 glass rounded-lg transform transition-all duration-200 hover:translate-x-1">
-                  <h5 className="font-medium">{option.title}</h5>
+                <div key={index} className="p-2 glass rounded-lg transform transition-all duration-200 hover:translate-x-1">
+                  <h5 className="font-medium text-sm">{option.title}</h5>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {option.description}
                   </p>
                   {option.note && (
-                    <p className="text-xs italic text-gray-500 mt-2">{option.note}</p>
+                    <p className="text-sm italic text-gray-500 mt-1">{option.note}</p>
                   )}
                 </div>
               ))}
@@ -155,35 +165,35 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
       case 'people-import': {
         const importResource = resource as any;
         return (
-          <div className="mt-4 space-y-6">
+          <div className="mt-3 space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2">
             <div>
-              <h4 className="font-medium text-txt-p dark:text-darkmode-txt-p mb-3">Record Types</h4>
-              <div className="space-y-3">
+              <h4 className="font-medium text-sm text-txt-p dark:text-darkmode-txt-p mb-2 sticky top-0 bg-white dark:bg-gray-800 py-1 z-10">Record Types</h4>
+              <div className="space-y-2">
                 {importResource.recordTypes.map((record: any, index: number) => (
-                  <div key={index} className="p-3 glass rounded-lg transform transition-all duration-200 hover:translate-x-1">
-                    <h5 className="font-medium">{record.type}</h5>
+                  <div key={index} className="p-2 glass rounded-lg transform transition-all duration-200 hover:translate-x-1">
+                    <h5 className="font-medium text-sm">{record.type}</h5>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                       {record.description}
                     </p>
-                    <p className="text-xs italic text-gray-500 mt-2">Usage: {record.usage}</p>
+                    <p className="text-sm italic text-gray-500 mt-1">Usage: {record.usage}</p>
                   </div>
                 ))}
               </div>
             </div>
             
             <div>
-              <h4 className="font-medium text-txt-p dark:text-darkmode-txt-p mb-3">Import Methods</h4>
-              <div className="space-y-3">
+              <h4 className="font-medium text-sm text-txt-p dark:text-darkmode-txt-p mb-2 sticky top-0 bg-white dark:bg-gray-800 py-1 z-10">Import Methods</h4>
+              <div className="space-y-2">
                 {importResource.methods.map((method: any) => (
-                  <div key={method.id} className="p-3 glass rounded-lg transform transition-all duration-200 hover:translate-x-1">
-                    <h5 className="font-medium">{method.name}</h5>
+                  <div key={method.id} className="p-2 glass rounded-lg transform transition-all duration-200 hover:translate-x-1">
+                    <h5 className="font-medium text-sm">{method.name}</h5>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                       {method.description}
                     </p>
                     
-                    <div className="mt-3">
+                    <div className="mt-2">
                       <h6 className="text-sm font-medium mb-1">Steps:</h6>
-                      <ol className="text-sm text-gray-600 dark:text-gray-400 pl-5 list-decimal">
+                      <ol className="text-sm text-gray-600 dark:text-gray-400 pl-4 list-decimal">
                         {method.steps.map((step: string, stepIndex: number) => (
                           <li key={stepIndex} className="mb-1">{step}</li>
                         ))}
@@ -191,9 +201,9 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
                     </div>
                     
                     {method.notes && method.notes.length > 0 && (
-                      <div className="mt-3">
+                      <div className="mt-2">
                         <h6 className="text-sm font-medium mb-1">Notes:</h6>
-                        <ul className="text-sm text-gray-600 dark:text-gray-400 pl-5 list-disc">
+                        <ul className="text-sm text-gray-600 dark:text-gray-400 pl-4 list-disc">
                           {method.notes.map((note: string, noteIndex: number) => (
                             <li key={noteIndex} className="mb-1">{note}</li>
                           ))}
@@ -211,7 +221,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
       case 'release-notes': {
         const releaseNotesResource = resource as any;
         return (
-          <div className="mt-4 space-y-6">
+          <div className="mt-4 space-y-6 max-h-[600px] overflow-y-auto custom-scrollbar pr-2">
             {releaseNotesResource.notes.map((note: any) => (
               <div key={note.id} className="p-4 glass rounded-lg">
                 <h4 className="font-medium text-txt-p dark:text-darkmode-txt-p flex items-center">
@@ -242,7 +252,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
                     <h5 className="font-medium text-sm border-b border-white/10 pb-2 mb-3">
                       Features and Updates
                     </h5>
-                    <div className="space-y-3 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
+                    <div className="space-y-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
                       {note.features.map((feature: any, fIndex: number) => (
                         <div key={fIndex} className="p-3 glass rounded-lg transform transition-all duration-200 hover:translate-x-1">
                           <div className="flex justify-between items-start">
@@ -289,12 +299,64 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
         );
       }
       
-      default:
-        // Just show title and description for unknown resource types
+      case 'connectors': {
+        const connectorsResource = resource as any;
         return (
-          <div className="mt-4">
-            <p className="text-gray-600 dark:text-gray-400">
-              No detailed view available for this resource type.
+          <div className="mt-4 space-y-4">
+            <div className="overflow-x-auto rounded-lg glass">
+              <table className="min-w-full table-fixed">
+                <thead className="sticky top-0 bg-white dark:bg-gray-800 z-10">
+                  <tr className="border-b border-white/10">
+                    <th className="text-left py-2 px-3 font-medium w-2/5">Name</th>
+                    <th className="text-left py-2 px-3 font-medium w-1/5">Type</th>
+                    <th className="text-left py-2 px-3 font-medium w-1/5">Category</th>
+                    <th className="text-left py-2 px-3 font-medium w-1/5">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="max-h-64 overflow-y-auto">
+                  {connectorsResource.connectors.map((connector: any) => (
+                    <tr key={connector.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                      <td className="py-2 px-3">
+                        <div className="font-medium text-sm">{connector.name}</div>
+                        <div className="text-xs text-gray-500 mt-1 line-clamp-2">{connector.description}</div>
+                      </td>
+                      <td className="py-2 px-3">
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs ${
+                          connector.type === 'oauth' 
+                            ? 'bg-blue-500/20 text-blue-500' 
+                            : 'bg-green-500/20 text-green-500'
+                        }`}>
+                          {connector.type}
+                        </span>
+                      </td>
+                      <td className="py-2 px-3">
+                        <span className="inline-block px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-xs">
+                          {connector.category}
+                        </span>
+                      </td>
+                      <td className="py-2 px-3">
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs ${
+                          connector.status === 'active' 
+                            ? 'bg-green-500/20 text-green-500' 
+                            : 'bg-yellow-500/20 text-yellow-500'
+                        }`}>
+                          {connector.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      }
+      
+      default:
+        return (
+          <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <p className="text-gray-800 dark:text-gray-200">
+              This resource type doesn't have a detailed view.
             </p>
           </div>
         );
@@ -303,18 +365,18 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
 
   return (
     <div 
-      className={`p-4 glass rounded-lg border ${isExpanded ? 'border-blue-200 dark:border-blue-900' : 'border-gray-200 dark:border-white/5'} shadow-md hover:shadow-lg transition-all duration-300`}
+      className={`p-3 glass rounded-lg border ${isExpanded ? 'border-blue-200 dark:border-blue-900' : 'border-gray-200 dark:border-white/5'} shadow-md hover:shadow-lg transition-all duration-300`}
       style={style}
     >
       <div className="flex justify-between items-start">
         <div className="flex items-center">
-          <span className="text-xl mr-3 bg-gray-100 dark:bg-white/5 w-10 h-10 flex items-center justify-center rounded-full">{getTypeIcon()}</span>
+          <span className="text-lg mr-2 bg-gray-100 dark:bg-white/5 w-8 h-8 flex items-center justify-center rounded-full">{getTypeIcon()}</span>
           <div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{resource.title}</h3>
             <div className="flex items-center">
               <p className="text-sm text-gray-600 dark:text-gray-400">{resource.type.replace(/_/g, ' ')}</p>
-              <div className="text-xs text-gray-500 dark:text-gray-400 border-l border-gray-200 dark:border-gray-700 ml-2 pl-2 flex items-center">
-                <svg className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <div className="text-sm text-gray-500 dark:text-gray-400 border-l border-gray-200 dark:border-gray-700 ml-2 pl-2 flex items-center">
+                <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 Last verified <span className="font-medium ml-1">5/18/2025</span>
@@ -323,7 +385,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
           </div>
         </div>
         
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-1">
           {'url' in resource && resource.url && (
             <a
               href={resource.url}
@@ -349,31 +411,18 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, style }) =
       </div>
       
       {!isExpanded ? (
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
           {resource.description}
         </p>
       ) : (
-        <div className="mt-2">
+        <div className="mt-1">
           <p className="text-sm text-gray-600 dark:text-gray-400">
             {resource.description}
           </p>
         </div>
       )}
       
-      <div className="mt-2 flex flex-wrap gap-2">
-        {'tags' in resource && resource.tags && resource.tags.length > 0 && 
-          resource.tags.map(tag => (
-            <span
-              key={tag}
-              className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400"
-            >
-              <FaTag className="mr-1 text-xs" /> {tag}
-            </span>
-          ))
-        }
-      </div>
-      
-      <div className={`transition-all duration-300 overflow-hidden ${isExpanded ? 'max-h-[9999px] opacity-100' : 'max-h-0 opacity-0'}`}>
+      <div className={`transition-all duration-300 overflow-hidden ${isExpanded ? 'max-h-[800px] opacity-100 overflow-y-auto custom-scrollbar' : 'max-h-0 opacity-0'}`}>
         {renderContent()}
       </div>
     </div>

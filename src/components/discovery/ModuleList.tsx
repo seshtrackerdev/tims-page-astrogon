@@ -49,24 +49,24 @@ export const ModuleList: React.FC<ModuleListProps> = ({
     .sort((a, b) => a.order - b.order);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-fadeIn">
       {filteredModules.map((module, index) => (
         <button
           key={module.key}
           onClick={() => onModuleSelect?.(module)}
-          className="module-card text-left glass p-6 rounded-lg border border-gray-200 dark:border-white/10 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 transform"
+          className="module-card text-left glass p-4 rounded-lg border border-gray-200 dark:border-white/10 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 transform"
           style={{ 
             borderLeft: `4px solid ${module.color}`,
             animationDelay: `${index * 0.1}s`
           }}
         >
-          <div className="flex items-center mb-4">
-            <span className="text-2xl mr-3 bg-gray-100 dark:bg-white/5 w-12 h-12 flex items-center justify-center rounded-full" style={{ color: module.color }}>
+          <div className="flex items-center mb-2">
+            <span className="text-2xl mr-3 bg-gray-100 dark:bg-white/5 w-10 h-10 flex items-center justify-center rounded-full" style={{ color: module.color }}>
               {module.icon}
             </span>
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white">{module.name}</h3>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{module.name}</h3>
           </div>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-gray-600 dark:text-gray-400 mb-3">
             {module.description}
           </p>
           <div className="text-sm font-medium px-3 py-1 inline-block rounded-full bg-gray-100 dark:bg-white/5 text-gray-800 dark:text-white">
